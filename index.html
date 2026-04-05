@@ -594,8 +594,9 @@
             // Mostrar convite
             invitationContainer.style.display = 'block';
 
-            // Tocar áudio
-            const audio = new Audio('audio-convite.mp3');
+            // Tocar áudio do GitHub
+            const audioUrl = 'https://raw.githubusercontent.com/alysonbackkuhnen/convite-cecilia/main/audio-convite.mp3';
+            const audio = new Audio(audioUrl);
             audio.play().catch(error => {
                 console.log('Reprodução de áudio impedida:', error);
             });
