@@ -235,11 +235,188 @@
             0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
+
+        /* Estilo do botão de localização */
+        .map-button-container {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .maps-button {
+            background: linear-gradient(135deg, #4285f4, #34a853);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .maps-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+            background: linear-gradient(135deg, #3367d6, #2e8b57);
+        }
+
+        .maps-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(66, 133, 244, 0.3);
+        }
+
+        /* Estilos para tela inicial */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffb6c1 0%, #87ceeb 50%, #d8bfd8 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: welcomeFadeIn 1s ease-out;
+        }
+
+        .welcome-content {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: welcomeScaleIn 1s ease-out;
+        }
+
+        .welcome-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #d8417a;
+            margin-bottom: 20px;
+        }
+
+        .welcome-content p {
+            font-size: 1.2em;
+            color: #6a5acd;
+            margin-bottom: 30px;
+        }
+
+        .open-invite-btn {
+            background: linear-gradient(135deg, #ff69b4, #ffb6c1);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .open-invite-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+        }
+
+        .open-invite-btn:active {
+            transform: translateY(0);
+        }
+
+        @keyframes welcomeFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes welcomeScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Ajustes para telas muito pequenas (celulares) */
+        @media (max-width: 480px) {
+            .invitation-container {
+                padding: 20px 15px;
+                margin: 10px;
+                max-width: 95vw;
+                border-radius: 15px;
+            }
+
+            .details {
+                padding: 15px;
+                margin: 15px 0;
+            }
+
+            .detail-item {
+                margin: 12px 0;
+                font-size: 0.95rem;
+            }
+
+            .cecilia-name {
+                margin: 15px 0;
+                letter-spacing: 1px;
+            }
+
+            .maps-button {
+                padding: 12px 20px;
+                font-size: 1em;
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .map-button-container {
+                margin: 20px 0;
+            }
+
+            .welcome-content {
+                padding: 30px 20px;
+                margin: 20px;
+                max-width: 90vw;
+            }
+
+            .welcome-content h1 {
+                font-size: 2em;
+            }
+
+            .welcome-content p {
+                font-size: 1.1em;
+            }
+
+            .open-invite-btn {
+                padding: 15px 30px;
+                font-size: 1.1em;
+                width: 100%;
+                max-width: 250px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Tela inicial com botão para abrir convite -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-content">
+            <h1>✨ Convite Especial ✨</h1>
+            <p>Clique abaixo para abrir o convite</p>
+            <button class="open-invite-btn" onclick="openInvitation()">
+                🎉 Abrir o Convite
+            </button>
+        </div>
+    </div>
+
     <div class="snowflakes" id="snowflakes"></div>
-    <div class="invitation-container">
+    <div class="invitation-container" id="invitationContainer" style="display: none;">
         <div class="magic-border"></div>
 
         <div class="header">
@@ -254,6 +431,12 @@
             <p class="detail-item">📅 <span class="highlight">25 de Junho de 2026</span></p>
             <p class="detail-item">⏰ <span class="highlight">15:00 horas</span></p>
             <p class="detail-item">📍 <span class="highlight">Cascavel - PR</span></p>
+        </div>
+
+        <div class="map-button-container">
+            <button class="maps-button" onclick="openGoogleMaps()">
+                📍 Como chegar
+            </button>
         </div>
 
         <div class="theme">
@@ -390,6 +573,33 @@
             `;
             document.head.appendChild(style);
         });
+
+        // Função para abrir Google Maps
+        function openGoogleMaps() {
+            const address = "Rua Fidelis Batista de Aguiar 872 Cascavel Parana CEP 85803420";
+            const encodedAddress = encodeURIComponent(address);
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+
+            window.open(mapsUrl, '_blank');
+        }
+
+        // Função para abrir o convite e tocar áudio
+        function openInvitation() {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const invitationContainer = document.getElementById('invitationContainer');
+
+            // Esconder tela inicial
+            welcomeScreen.style.display = 'none';
+
+            // Mostrar convite
+            invitationContainer.style.display = 'block';
+
+            // Tocar áudio
+            const audio = new Audio('audio-convite.mp3');
+            audio.play().catch(error => {
+                console.log('Reprodução de áudio impedida:', error);
+            });
+        }
     </script>
 </body>
 </html>
